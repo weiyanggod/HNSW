@@ -1,15 +1,15 @@
 <template>
 	<view class="f-uploadShow">
 		<view class="grace-border items" v-for="(p, index) in pics" :key="index">
-			<image @click="showImgs(index)" :src="getSrc(p)" style="width: 100%;height: 100%;"></image>
+			<image @click="showImgs(index)" :src="getSrc(p)" style="width: 100%; height: 100%"></image>
 			<!-- <view class="remove grace-icons icon-remove grace-bg-red" @tap="removeImg(index)"></view> -->
 		</view>
 	</view>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import config from '@/config.js';
+import { mapState } from 'vuex'
+import config from '@/config.js'
 export default {
 	props: {
 		value: {
@@ -25,18 +25,18 @@ export default {
 			default: true
 		}
 	},
-	watch:{
-		value(){
-			if(!this.value){
+	watch: {
+		value() {
+			if (!this.value) {
 				this.pics = []
 			}
 		}
 	},
 	data() {
 		return {
-			picsList:{},
+			picsList: {},
 			pics: this.value ? this.value.split(',') : []
-		};
+		}
 	},
 	computed: {
 		...mapState(['token'])
@@ -47,59 +47,55 @@ export default {
 				count: 1,
 				sizeType: ['compressed'],
 				// sourceType: ['camera','album'],
-				success: res => {
-					console.log(res)
-					const tempFilePaths = res.tempFilePaths;
+				success: (res) => {
+					const tempFilePaths = res.tempFilePaths
 					uni.showLoading({
 						title: '上传中...'
-					});
+					})
 					uni.uploadFile({
 						url: config.baseURL + '/upload',
 						filePath: tempFilePaths[0],
 						name: 'file',
 						header: {
-							'Authorization': this.token,
+							Authorization: this.token,
 							Cookie: `__auth=${this.token}`
 						},
-						success: uploadFileRes => {
-							const result = JSON.parse(uploadFileRes.data);
-							this.pics.push(result.data.fileid);
-							this.picsList[''+result.data.fileid] = tempFilePaths[0]
-							uni.hideLoading();
-							this.$emit('input', this.pics.join(','));
-							console.log(uploadFileRes)
-							console.log(result)
-							console.log(this.pics)
+						success: (uploadFileRes) => {
+							const result = JSON.parse(uploadFileRes.data)
+							this.pics.push(result.data.fileid)
+							this.picsList['' + result.data.fileid] = tempFilePaths[0]
+							uni.hideLoading()
+							this.$emit('input', this.pics.join(','))
 						},
-						fail: e => {
-							uni.hideLoading();
+						fail: (e) => {
+							uni.hideLoading()
 							uni.showModal({
 								title: JSON.stringify(e),
 								showCancel: false
-							});
+							})
 						}
-					});
+					})
 				}
-			});
+			})
 		},
 		getSrc(path) {
-			return config.baseURL + `/downloads/${path}`;
+			return config.baseURL + `/downloads/${path}`
 		},
 		showImgs(index) {
-			const lst = this.pics.map(p => {
-				return this.getSrc(p);
-			});
+			const lst = this.pics.map((p) => {
+				return this.getSrc(p)
+			})
 			uni.previewImage({
 				urls: lst,
 				current: lst[index]
-			});
+			})
 		},
 		removeImg(index) {
-			this.pics = this.pics.filter((p, i) => i != index);
-			this.$emit('input', this.pics.join(','));
+			this.pics = this.pics.filter((p, i) => i != index)
+			this.$emit('input', this.pics.join(','))
 		}
 	}
-};
+}
 </script>
 
 <style lang="less">

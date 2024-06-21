@@ -22,8 +22,8 @@
 						class="td value"
 						style="width: 70%; padding-right: 20rpx; box-sizing: border-box"
 						@click="
-							showStimeType = 'time';
-							showStime = true;
+							showStimeType = 'time'
+							showStime = true
 						"
 					>
 						<text>{{ form.time || '请选择整改时间' }}</text>
@@ -42,8 +42,8 @@
 						class="td value"
 						style="width: 70%; padding-right: 20rpx; box-sizing: border-box"
 						@click="
-							listType = `status`;
-							showList = true;
+							listType = `status`
+							showList = true
 						"
 					>
 						<text>{{ listValue[`status`] || '请选择' }}</text>
@@ -64,9 +64,9 @@
 	</u-modal>
 </template>
 <script>
-import { mapState } from 'vuex';
-import FUpload from '@/components/FUpload.vue';
-import mxdatepicker from '@/components/mx-datepicker/mx-datepicker.vue';
+import { mapState } from 'vuex'
+import FUpload from '@/components/FUpload.vue'
+import mxdatepicker from '@/components/mx-datepicker/mx-datepicker.vue'
 export default {
 	computed: {
 		...mapState('common', ['archive', 'dicts', 'users', 'me'])
@@ -132,20 +132,20 @@ export default {
 					}
 				]
 			}
-		};
+		}
 	},
 	methods: {
 		onCancel() {
-			this.show = false;
-			this.$emit('onClose');
+			this.show = false
+			this.$emit('onClose')
 		},
 		onCancelPicker() {
-			this.showStime = false;
+			this.showStime = false
 		},
 		onSelectedDate(e) {
-			let date = new Date(e.date).Format('YYYY-MM-DD');
-			this.form[this.showStimeType] = date;
-			this.showStime = false;
+			let date = new Date(e.date).Format('YYYY-MM-DD')
+			this.form[this.showStimeType] = date
+			this.showStime = false
 		},
 		initDict() {
 			this.list = {
@@ -167,20 +167,20 @@ export default {
 						name: '已完成'
 					}
 				]
-			};
+			}
 		},
 
 		onSelect(target) {
-			this.listValue[this.listType] = target.value[0].name;
-			this.form[this.listType] = target.value[0].id;
-			this.showList = false;
+			this.listValue[this.listType] = target.value[0].name
+			this.form[this.listType] = target.value[0].id
+			this.showList = false
 		},
 		onSubmit() {
-			let rules = [];
+			let rules = []
 			if (this.type == 1) {
-				rules = ['time', 'measure', 'status'];
+				rules = ['time', 'measure', 'status']
 			} else {
-				rules = ['time', 'measure'];
+				rules = ['time', 'measure']
 			}
 
 			if (rules.find((i) => !this.form[i])) {
@@ -189,7 +189,7 @@ export default {
 					message: this.rules[rules.find((i) => !this.form[i])][0].message,
 					icon: false,
 					complete() {}
-				});
+				})
 			}
 
 			uni.showModal({
@@ -199,44 +199,42 @@ export default {
 					if (e.confirm) {
 						uni.showLoading({
 							title: '提交中...'
-						});
-						let form = JSON.parse(JSON.stringify(this.form));
-						form.type = this.type;
-						form.id = this.item.id;
-						this.$request
-							.post(`improves/submit`, form)
-							.then((res) => {
-								uni.hideLoading();
-								this.init();
-
+						})
+						let form = JSON.parse(JSON.stringify(this.form))
+						form.type = this.type
+						form.id = this.item.id
+						form.name = this.item.name
+						this.$request.post(`new/improves/submit`, form).then(({ data }) => {
+							uni.hideLoading()
+							if (data.code === 200) {
+								this.init()
 								uni.showModal({
 									title: '操作成功！',
 									showCancel: false,
 									success: () => {
-										this.$emit('onClose');
+										this.$emit('onClose')
 									}
-								});
-							})
-							.catch((err) => {
-								uni.hideLoading();
+								})
+							} else {
 								uni.showModal({
 									title: '提示',
-									content: ((err || {}).data || {}).error,
+									content: data.message,
 									showCancel: false
-								});
-							});
+								})
+							}
+						})
 					}
 				},
 				cancel: (e) => {
-					uni.hideLoading();
+					uni.hideLoading()
 				}
-			});
+			})
 		},
 		init() {
 			this.listValue = {
 				status: ''
-			};
-			this.type = this.archive.category1 != '工程' ? '0' : '1';
+			}
+			this.type = this.archive.category1 != '工程' ? '0' : '1'
 			this.form = {
 				status: null,
 				measure: null,
@@ -244,14 +242,14 @@ export default {
 				file: null,
 				id: this.item.id,
 				type: this.type
-			};
+			}
 		}
 	},
 	onReady() {
-		this.initDict();
-		this.init();
+		this.initDict()
+		this.init()
 	}
-};
+}
 </script>
 <style lang="scss">
 .c-improves {

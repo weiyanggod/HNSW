@@ -190,7 +190,15 @@
 		<worker :block="selectBlock.code" v-if="showWorder" @onClose="showWorder = false"></worker>
 		<projectStop v-if="showProject_stop" @onClose="showProject_stop = false"></projectStop>
 		<info v-if="showInfo" @onClose="showInfo = false" :positions="positions" :positionAccuracy="positionAccuracy"></info>
-		<improveDetail :item="selectImprove" :items="improvesDto" v-if="showDetail" @onClose="showDetail = false"></improveDetail>
+		<improveDetail
+			:item="selectImprove"
+			:items="improvesDto"
+			v-if="showDetail"
+			@onClose="
+				getData()
+				showDetail = false
+			"
+		></improveDetail>
 		<inspectionsDetail :items="checkDetailDto" v-if="showInspectionsDetail" @onClose="showInspectionsDetail = false"></inspectionsDetail>
 		<u-picker v-if="!show" :show="showBlock" :columns="[archive.block]" keyName="name" @confirm="onSelectConfirm" @cancel="onSelectCancel"></u-picker>
 		<u-modal :show="show" :title="' '" :content="' '" @cancel="onCancel" :showConfirmButton="false">
@@ -531,7 +539,6 @@ export default {
 			}
 		},
 		getHasInBlock() {
-			console.log(this.positions)
 			if (this.archive.category1 == '特种作业') {
 				this.hasInBlock = true
 			} else {
@@ -610,7 +617,6 @@ export default {
 			}
 		},
 		go(item) {
-			console.log(item)
 			if (item.id == 'worker_start') {
 				this.onSubmitWorkStart()
 			} else if (item.id == 'worker_end') {
@@ -881,7 +887,7 @@ export default {
 				this.$request.get(`${(this.archive || {}).code}/inspections`).then((res) => {
 					this.list.inspections = res.data.data || []
 				})
-				this.$request.get(`${(this.archive || {}).code}/improves`).then((res) => {
+				this.$request.get(`new/improves?code=${(this.archive || {}).code}`).then((res) => {
 					this.list.improves = res.data.data || []
 				})
 				this.$request.get(`/stop/records?code=${(this.archive || {}).code}`).then((res) => {
@@ -953,7 +959,6 @@ export default {
 		let pages = getCurrentPages()
 		let currentPages = pages[pages.length - 1]
 		let p = currentPages.options
-		console.log(pages)
 
 		if (p.q) {
 			//微信扫描扫描二维码进来的

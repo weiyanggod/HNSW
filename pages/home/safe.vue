@@ -58,6 +58,7 @@
 			</view>
 		</u-modal>
 		<u-picker :show="showStatus" :columns="[status]" @confirm="onSelect" @cancel="onSelectCancel" keyName="name"></u-picker>
+		<!-- 整改弹框 -->
 		<improves v-if="showImproves && category != '工程'" :block="block" :item="selectItem" @onClose="onCancel"></improves>
 		<improvesGC v-if="showImproves && category == '工程'" :block="block" :item="selectItem" @onClose="onCancel"></improvesGC>
 	</view>

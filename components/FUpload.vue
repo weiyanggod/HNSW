@@ -5,22 +5,19 @@
 			<view class="text">+ 添加图片</view>
 		</view>
 		<view class="grace-border pics" v-for="(p, index) in pics" :key="index">
-		
-			图片{{index+1}} <text style="float: right;" @tap="removeImg(index)">X</text>
-			<hr>
+			图片{{ index + 1 }}
+			<text style="float: right" @tap="removeImg(index)">X</text>
+			<hr />
 			<!-- <view class="remove">
 				<u-icon v-if="upload" name="close" style="color: #fff;" color="#fff"  @tap="removeImg(index)"></u-icon>
 			</view> -->
 		</view>
-		
-		
-	
 	</view>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import config from '@/config.js';
+import { mapState } from 'vuex'
+import config from '@/config.js'
 export default {
 	props: {
 		value: {
@@ -36,18 +33,18 @@ export default {
 			default: true
 		}
 	},
-	watch:{
-		value(){
-			if(!this.value){
+	watch: {
+		value() {
+			if (!this.value) {
 				this.pics = []
 			}
 		}
 	},
 	data() {
 		return {
-			picsList:{},
+			picsList: {},
 			pics: this.value ? this.value.split(',') : []
-		};
+		}
 	},
 	computed: {
 		...mapState(['token'])
@@ -58,72 +55,69 @@ export default {
 				count: 1,
 				sizeType: ['compressed'],
 				// sourceType: ['camera','album'],
-				success: res => {
+				success: (res) => {
 					console.log(res)
-					const tempFilePaths = res.tempFilePaths;
+					const tempFilePaths = res.tempFilePaths
 					uni.showLoading({
 						title: '上传中...'
-					});
+					})
 					uni.uploadFile({
 						url: config.baseURL + '/upload',
 						filePath: tempFilePaths[0],
 						name: 'file',
 						// timeout:5000,
 						header: {
-							'Authorization': this.token,
+							Authorization: this.token,
 							Cookie: `__auth=${this.token}`
 						},
-						success: uploadFileRes => {
-							console.log(uploadFileRes)
-							const result = JSON.parse(uploadFileRes.data);
-							if((result.data||{}).fileid){
-								
-								this.pics.push(result.data.fileid);
-								this.picsList[''+result.data.fileid] = tempFilePaths[0]
-								uni.hideLoading();
-								this.$emit('input', this.pics.join(','));
-							}else{
-								uni.hideLoading();
+						success: (uploadFileRes) => {
+							const result = JSON.parse(uploadFileRes.data)
+							if ((result.data || {}).fileid) {
+								this.pics.push(result.data.fileid)
+								this.picsList['' + result.data.fileid] = tempFilePaths[0]
+								uni.hideLoading()
+								this.$emit('input', this.pics.join(','))
+							} else {
+								uni.hideLoading()
 								uni.showModal({
 									title: JSON.stringify('图片上传失败'),
 									showCancel: false
-								});
+								})
 							}
 						},
-						fail: e => {
-							uni.hideLoading();
+						fail: (e) => {
+							uni.hideLoading()
 							uni.showModal({
 								title: JSON.stringify(e),
 								showCancel: false
-							});
+							})
 						}
-					});
+					})
 				}
-			});
+			})
 		},
 		showImgs(index) {
-			const lst = this.pics.map(p => {
-				return this.picsList[p];
-			});
+			const lst = this.pics.map((p) => {
+				return this.picsList[p]
+			})
 			uni.previewImage({
 				urls: lst,
 				current: lst[index]
-			});
+			})
 		},
 		removeImg(index) {
-			this.pics = this.pics.filter((p, i) => i != index);
-			this.$emit('input', this.pics.join(','));
+			this.pics = this.pics.filter((p, i) => i != index)
+			this.$emit('input', this.pics.join(','))
 		}
 	}
-};
+}
 </script>
 
 <style lang="less">
 .f-upload {
-	
 	.add-btn {
 		width: 150rpx;
-	
+
 		background-color: #169bd5;
 		align-items: center;
 		justify-content: center;
@@ -134,7 +128,7 @@ export default {
 		flex-direction: column;
 		border-radius: 8rpx;
 		padding: 0 8rpx;
-	
+
 		.text {
 			font-size: 22upx;
 			color: #fff;
