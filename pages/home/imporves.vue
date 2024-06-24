@@ -1,5 +1,6 @@
 <template>
 	<u-modal :show="show" :title="' '" :content="' '" @cancel="onCancel" :showConfirmButton="false">
+		<u-toast ref="uToast" position="top"></u-toast>
 		<view class="c-improves">
 			<view class="c-improves__table">
 				<view class="th">
@@ -38,10 +39,14 @@
 					</view>
 				</view>
 			</view>
-			<u-collapse ref="collapseRef">
-				<u-collapse-item title="明细表">
-					<u-icon name="plus" color="#3badfb" @click="addQuestion"></u-icon>
-					<view class="c-improves__table" v-for="(item, index) in form.items" :key="index">
+			<u-cell-group>
+				<u-cell title="隐患明细" :arrow="false">
+					<u-icon slot="right-icon" name="plus" @click="addQuestion"></u-icon>
+				</u-cell>
+			</u-cell-group>
+			<scroll-view class="scrollHeight" scroll-y="true" :scroll-top="scrollTop" scroll-with-animation>
+				<view v-for="(item, index) in form.items" :key="index">
+					<view class="c-improves__table">
 						<view class="tr">
 							<view class="td" style="width: 30%">隐患名称</view>
 							<view class="td" style="width: 70%">
@@ -113,16 +118,16 @@
 							</view>
 						</view>
 					</view>
-				</u-collapse-item>
-			</u-collapse>
-
+					<u-button type="error" text="删除" size="mini" @click="delQuestion(index)"></u-button>
+				</view>
+			</scroll-view>
 			<view class="c-improves__footer" slot="confirmButton">
 				<view class="btn" @click="onCancel">取消</view>
 				<view class="btn btn2" @click="onSubmit">发布隐患</view>
 			</view>
 			<mxdatepicker :show="showStime" type="date" :show-tips="true" @confirm="onSelectedDate" @cancel="onCancelPicker" />
 
-			<u-picker :show="showList" :columns="[list[listType]]" @confirm="onSelect" keyName="name"></u-picker>
+			<u-picker :show="showList" :columns="[list[listType]]" @confirm="onSelect" keyName="name" @cancel="showList = false"></u-picker>
 			<u-toast ref="uToast"></u-toast>
 		</view>
 	</u-modal>
@@ -155,6 +160,7 @@ export default {
 	},
 	data() {
 		return {
+			scrollTop: 0,
 			show: true,
 			id: '',
 			showStimeType: '',
@@ -299,7 +305,6 @@ export default {
 				type: null,
 				desc: null,
 				address: this.archive.name + (this.archive.address || ''),
-				rtime: new Date().Format('YYYY-MM-DD'),
 				photo: null,
 				etime: null
 			})
@@ -309,7 +314,15 @@ export default {
 				inspectedUnit: ''
 			})
 			this.$nextTick(() => {
-				this.$refs.collapseRef.init()
+				this.scrollTop += 1000
+			})
+		},
+		// 删除隐患
+		delQuestion(index) {
+			this.form.items.splice(index, 1)
+			this.$refs.uToast.show({
+				type: 'success',
+				message: '删除成功'
 			})
 		},
 		onSelect(target) {
@@ -319,12 +332,13 @@ export default {
 			} else {
 				this.form.items[this.selectIndex][this.listType] = target.value[0].id
 			}
-
 			this.showList = false
 		},
 		onSubmit() {
 			let rules = ['inspectedUnit', 'rtime', 'name', 'category', 'type', 'etime', 'desc', 'address']
+			const arr = []
 			this.form.items.forEach((item, index) => {
+				arr.push(item.desc)
 				rules.forEach((i, inx) => {
 					if (i === 'inspectedUnit' || i === 'rtime') {
 						if (!this.form[i]) {
@@ -349,6 +363,18 @@ export default {
 					}
 				})
 			})
+			// 判断隐患描述内容的内容是否一致
+			for (var i = 0; i < arr.length; i++) {
+				console.log(arr.indexOf(arr[i]))
+				if (arr.indexOf(arr[i]) != i) {
+					return this.$refs.uToast.show({
+						type: 'error',
+						message: '隐患描述内容不能重复!',
+						icon: false
+					})
+				}
+			}
+			return
 			uni.showModal({
 				title: '提示',
 				content: '确定提交隐患通知单吗？',
@@ -394,6 +420,7 @@ export default {
 		},
 		init() {
 			this.form = {
+				rtime: new Date().Format('YYYY-MM-DD'),
 				items: [
 					{
 						name: this.archive.name + '安全隐患',
@@ -478,11 +505,13 @@ export default {
 			text-align: center;
 			line-height: 70rpx;
 		}
-
 		.btn2 {
 			background-color: #169bd5;
 			color: #fff;
 		}
 	}
+}
+.scrollHeight {
+	height: 600rpx;
 }
 </style>

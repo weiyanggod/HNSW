@@ -36,7 +36,7 @@
 						<FUpload v-model="form.file"></FUpload>
 					</view>
 				</view>
-				<view class="tr" v-if="type == 1">
+				<!-- <view class="tr" v-if="type == 1">
 					<view class="td" style="width: 30%">整改状态</view>
 					<view
 						class="td value"
@@ -49,7 +49,7 @@
 						<text>{{ listValue[`status`] || '请选择' }}</text>
 						<u-icon name="arrow-down" color="#000" size="12"></u-icon>
 					</view>
-				</view>
+				</view> -->
 			</view>
 
 			<view class="c-improves__footer" slot="confirmButton">
@@ -58,7 +58,7 @@
 			</view>
 			<mxdatepicker :show="showStime" type="date" :show-tips="true" @confirm="onSelectedDate" @cancel="onCancelPicker" />
 
-			<u-picker :show="showList" :columns="[list[listType]]" @confirm="onSelect" keyName="name"></u-picker>
+			<u-picker :show="showList" :columns="[list[listType]]" @confirm="onSelect" keyName="name" @cancel="showList = false"></u-picker>
 			<u-toast ref="uToast"></u-toast>
 		</view>
 	</u-modal>
@@ -177,11 +177,12 @@ export default {
 		},
 		onSubmit() {
 			let rules = []
-			if (this.type == 1) {
-				rules = ['time', 'measure', 'status']
-			} else {
-				rules = ['time', 'measure']
-			}
+			rules = ['time', 'measure']
+			// if (this.type == 1) {
+			// 	rules = ['time', 'measure', 'status']
+			// } else {
+			// 	rules = ['time', 'measure']
+			// }
 
 			if (rules.find((i) => !this.form[i])) {
 				return this.$refs.uToast.show({
@@ -191,7 +192,6 @@ export default {
 					complete() {}
 				})
 			}
-
 			uni.showModal({
 				title: '提示',
 				content: '确定提交隐患通知单吗？',
@@ -201,7 +201,7 @@ export default {
 							title: '提交中...'
 						})
 						let form = JSON.parse(JSON.stringify(this.form))
-						form.type = this.type
+						// form.type = this.type
 						form.id = this.item.id
 						form.name = this.item.name
 						this.$request.post(`new/improves/submit`, form).then(({ data }) => {
