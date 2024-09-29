@@ -9,17 +9,27 @@
 		</view>
 		<box title="风险源信息" class="p-home__info" style="margin-top: 20rpx">
 			<view class="table">
-				<view :class="index == 0 ? 'th' : 'tr'" v-for="(item, index) in info[archive.category1]" :key="item.name">
+				<view
+					:class="index == 0 ? 'th' : 'tr'"
+					v-for="(item, index) in info[archive.category1]"
+					:key="item.name"
+				>
 					<view class="td name">{{ item.name || '-' }}</view>
-					<view class="td value">{{ archive[item.value] || '-' }}</view>
-					<view class="td name" v-if="item.name2">{{ item.name2 || '-' }}</view>
+					<view class="td value">
+						{{ archive[item.value] || '-' }}
+					</view>
+					<view class="td name" v-if="item.name2">
+						{{ item.name2 || '-' }}
+					</view>
 					<view class="td value" v-if="item.name2">
 						{{ archive[item.value2] || '-' }}
 						<span
 							v-if="item.value3"
 							:style="{
-								color: archive[item.value3] ? '#3ace3a' : '#ccc',
-								fontSize: '32rpx'
+								color: archive[item.value3]
+									? '#3ace3a'
+									: '#ccc',
+								fontSize: '32rpx',
 							}"
 						>
 							{{ archive[item.value3] ? '√' : '○' }}
@@ -33,12 +43,27 @@
 				{{ selectBlock.name }}
 				<u-icon name="arrow-down"></u-icon>
 			</view>
-			<safe v-if="hasInBlock" :block="selectBlock.code" @onClose="showImprove = false" @onAdd="showImprove = true"></safe>
+			<safe
+				v-if="hasInBlock"
+				:block="selectBlock.code"
+				@onClose="showImprove = false"
+				@onAdd="showImprove = true"
+			></safe>
 			<view v-else class="desc">请前往该工程区域!</view>
 		</box>
-		<box title="工程项目" class="p-home__info" style="margin-top: 20rpx" v-if="archive.category1 == '工程'">
+		<box
+			title="工程项目"
+			class="p-home__info"
+			style="margin-top: 20rpx"
+			v-if="archive.category1 == '工程'"
+		>
 			<view class="items">
-				<view class="item" v-for="item in projects" :key="item.name" @click="go(item)">
+				<view
+					class="item"
+					v-for="item in projects"
+					:key="item.name"
+					@click="go(item)"
+				>
 					<image class="img" :src="item.icon"></image>
 					<view class="name">
 						{{ item.name }}
@@ -46,13 +71,23 @@
 				</view>
 			</view>
 		</box>
-		<box title="有限空间" class="p-home__info" style="margin-top: 20rpx" v-if="archive.category1 == '特种作业'">
+		<box
+			title="有限空间"
+			class="p-home__info"
+			style="margin-top: 20rpx"
+			v-if="archive.category1 == '特种作业'"
+		>
 			<view slot="title2" class="block" @click="showBlock = true">
 				{{ selectBlock.name }}
 				<u-icon name="arrow-down"></u-icon>
 			</view>
 			<view class="items" v-if="hasInBlock">
-				<view class="item" v-for="item in actions" :key="item.name" @click="go(item)">
+				<view
+					class="item"
+					v-for="item in actions"
+					:key="item.name"
+					@click="go(item)"
+				>
 					<image class="img" :src="item.icon"></image>
 					<view class="name">
 						{{ item.name }}
@@ -66,14 +101,26 @@
 			<view class="charts">
 				<view class="select" v-if="archive.category1 != '特种作业'">
 					<view class="btns" style="width: 160rpx">
-						<view class="btn" @click="selectChartType(btn)" :class="{ btned: btn.value == charts.type }" v-for="btn in charts.types" :key="btn.value">
+						<view
+							class="btn"
+							@click="selectChartType(btn)"
+							:class="{ btned: btn.value == charts.type }"
+							v-for="btn in charts.types"
+							:key="btn.value"
+						>
 							{{ btn.name }}
 						</view>
 					</view>
 					<view
 						class="name"
 						@click="selectChart(item)"
-						:style="{ borderColor: charts.index == item ? charts[item].color : '#ccc', color: charts.index == item ? '#000' : '#ccc' }"
+						:style="{
+							borderColor:
+								charts.index == item
+									? charts[item].color
+									: '#ccc',
+							color: charts.index == item ? '#000' : '#ccc',
+						}"
 						v-for="item in [1, 2, 3]"
 						:key="item"
 					>
@@ -82,8 +129,22 @@
 				</view>
 				<u-circle-progress
 					class="chart"
-					v-if="!charts.loading && !charts.loading2 && archive.category1 != '特种作业'"
-					v-show="!showWorder && !showBlock && !showImprove && !showDetail && !showInfo && !show && !showInspectionsDetail && !showStartProject && !showProject_stop"
+					v-if="
+						!charts.loading &&
+						!charts.loading2 &&
+						archive.category1 != '特种作业'
+					"
+					v-show="
+						!showWorder &&
+						!showBlock &&
+						!showImprove &&
+						!showDetail &&
+						!showInfo &&
+						!show &&
+						!showInspectionsDetail &&
+						!showStartProject &&
+						!showProject_stop
+					"
 					:active-color="charts[charts.index].color"
 					:percent="charts[charts.index][charts.type]"
 					width="260"
@@ -91,15 +152,32 @@
 					:border-width="20"
 				>
 					<view class="content">
-						<text class="name">{{ charts.type == 'month' ? '月' : '年' }}检查率</text>
-						<view class="value" :style="{ color: charts[charts.index].color }">{{ charts[charts.index][charts.type] }}%</view>
+						<text class="name">
+							{{ charts.type == 'month' ? '月' : '年' }}检查率
+						</text>
+						<view
+							class="value"
+							:style="{ color: charts[charts.index].color }"
+						>
+							{{ charts[charts.index][charts.type] }}%
+						</view>
 					</view>
 				</u-circle-progress>
 				<u-circle-progress
 					v-if="!charts.loading2"
 					class="chart"
 					:active-color="charts[4].color"
-					v-show="!showWorder && !showBlock && !showImprove && !showDetail && !showInfo && !show && !showInspectionsDetail && !showStartProject && !showProject_stop"
+					v-show="
+						!showWorder &&
+						!showBlock &&
+						!showImprove &&
+						!showDetail &&
+						!showInfo &&
+						!show &&
+						!showInspectionsDetail &&
+						!showStartProject &&
+						!showProject_stop
+					"
 					:percent="charts[4].value"
 					width="260"
 					:duration="0"
@@ -107,14 +185,26 @@
 				>
 					<view class="content">
 						<text class="name">隐患整改完成率</text>
-						<view class="value" :style="{ color: charts[4].color }">{{ charts[4].value }}%</view>
+						<view class="value" :style="{ color: charts[4].color }">
+							{{ charts[4].value }}%
+						</view>
 					</view>
 				</u-circle-progress>
 			</view>
 		</box>
-		<box title="隐患及检查记录台账" class="p-home__info" style="margin-top: 20rpx">
+		<box
+			title="隐患及检查记录台账"
+			class="p-home__info"
+			style="margin-top: 20rpx"
+		>
 			<view class="btns">
-				<view class="btn" @click="selectListType(btn)" :class="{ btned: btn.value == list.type }" v-for="btn in list.types" :key="btn.value">
+				<view
+					class="btn"
+					@click="selectListType(btn)"
+					:class="{ btned: btn.value == list.type }"
+					v-for="btn in list.types"
+					:key="btn.value"
+				>
 					{{ btn.name }}
 				</view>
 			</view>
@@ -128,15 +218,31 @@
 					<view class="td" style="width: 15%">隐患情况</view>
 					<view class="td" style="width: 15%">整改情况</view>
 				</view>
-				<view class="tr" v-for="(item2, index) in list.inspections" :key="index">
+				<view
+					class="tr"
+					v-for="(item2, index) in list.inspections"
+					:key="index"
+				>
 					<view class="td" style="width: 10%">{{ index + 1 }}</view>
-					<view class="td" style="width: 20%; color: #3c9cff" @click="onSelectInspections(item2)">
+					<view
+						class="td"
+						style="width: 20%; color: #3c9cff"
+						@click="onSelectInspections(item2)"
+					>
 						{{ item2.time.split(' ')[0] }}
 					</view>
 					<view class="td" style="width: 15%">{{ item2.user }}</view>
-					<view class="td" style="width: 25%">{{ item2.company }}</view>
-					<view class="td" style="width: 15%">{{ item2.improve_situation }}</view>
-					<view class="td" style="width: 15%; color: #3c9cff" @click="onSelectInspection(item2)">
+					<view class="td" style="width: 25%">
+						{{ item2.company }}
+					</view>
+					<view class="td" style="width: 15%">
+						{{ item2.improve_situation }}
+					</view>
+					<view
+						class="td"
+						style="width: 15%; color: #3c9cff"
+						@click="onSelectInspection(item2)"
+					>
 						{{ item2.improve_state }}
 					</view>
 				</view>
@@ -152,14 +258,26 @@
 				</view>
 				<view
 					class="tr"
-					v-for="item in list.improves.filter((i) => (list.type == '1' ? i.state == '已整改' || i.state == '已完成' : i.state != '已整改' && i.state != '已完成'))"
+					v-for="item in list.improves.filter((i) =>
+						list.type == '1'
+							? i.state == '已整改' || i.state == '已完成'
+							: i.state != '已整改' && i.state != '已完成',
+					)"
 					:key="item.code"
 					@click="onSelectImprove(item)"
 				>
-					<view class="td line" style="width: 20%">{{ item.name || '-' }}</view>
-					<view class="td" style="width: 20%; color: #3c9cff">{{ item.rtime ? item.rtime.split(' ')[0] : '-' }}</view>
-					<view class="td line" style="width: 25%">{{ item.method || '-' }}</view>
-					<view class="td" style="width: 20%">{{ item.time ? item.time.split(' ')[0] : '-' }}</view>
+					<view class="td line" style="width: 20%">
+						{{ item.name || '-' }}
+					</view>
+					<view class="td" style="width: 20%; color: #3c9cff">
+						{{ item.rtime ? item.rtime.split(' ')[0] : '-' }}
+					</view>
+					<view class="td line" style="width: 25%">
+						{{ item.method || '-' }}
+					</view>
+					<view class="td" style="width: 20%">
+						{{ item.time ? item.time.split(' ')[0] : '-' }}
+					</view>
 					<view class="td" style="width: 15%">{{ item.state }}</view>
 				</view>
 			</view>
@@ -173,11 +291,19 @@
 					<view class="td" style="width: 25%">停工开始日期</view>
 					<view class="td" style="width: 25%">停工结束日期</view>
 				</view>
-				<view class="tr" v-for="(item2, index) in stopList.data" :key="index">
+				<view
+					class="tr"
+					v-for="(item2, index) in stopList.data"
+					:key="index"
+				>
 					<view class="td" style="width: 10%">{{ index + 1 }}</view>
 
-					<view class="td" style="width: 20%">{{ item2.applicants }}</view>
-					<view class="td" style="width: 20%">{{ item2.blockName }}</view>
+					<view class="td" style="width: 20%">
+						{{ item2.applicants }}
+					</view>
+					<view class="td" style="width: 20%">
+						{{ item2.blockName }}
+					</view>
 					<view class="td" style="width: 25%; color: #3c9cff">
 						{{ item2.startDate }}
 					</view>
@@ -187,9 +313,21 @@
 				</view>
 			</view>
 		</box>
-		<worker :block="selectBlock.code" v-if="showWorder" @onClose="showWorder = false"></worker>
-		<projectStop v-if="showProject_stop" @onClose="showProject_stop = false"></projectStop>
-		<info v-if="showInfo" @onClose="showInfo = false" :positions="positions" :positionAccuracy="positionAccuracy"></info>
+		<worker
+			:block="selectBlock.code"
+			v-if="showWorder"
+			@onClose="showWorder = false"
+		></worker>
+		<projectStop
+			v-if="showProject_stop"
+			@onClose="showProject_stop = false"
+		></projectStop>
+		<info
+			v-if="showInfo"
+			@onClose="showInfo = false"
+			:positions="positions"
+			:positionAccuracy="positionAccuracy"
+		></info>
 		<improveDetail
 			:item="selectImprove"
 			:items="improvesDto"
@@ -199,9 +337,26 @@
 				showDetail = false
 			"
 		></improveDetail>
-		<inspectionsDetail :items="checkDetailDto" v-if="showInspectionsDetail" @onClose="showInspectionsDetail = false"></inspectionsDetail>
-		<u-picker v-if="!show" :show="showBlock" :columns="[archive.block]" keyName="name" @confirm="onSelectConfirm" @cancel="onSelectCancel"></u-picker>
-		<u-modal :show="show" :title="' '" :content="' '" @cancel="onCancel" :showConfirmButton="false">
+		<inspectionsDetail
+			:items="checkDetailDto"
+			v-if="showInspectionsDetail"
+			@onClose="showInspectionsDetail = false"
+		></inspectionsDetail>
+		<u-picker
+			v-if="!show"
+			:show="showBlock"
+			:columns="[archive.block]"
+			keyName="name"
+			@confirm="onSelectConfirm"
+			@cancel="onSelectCancel"
+		></u-picker>
+		<u-modal
+			:show="show"
+			:title="' '"
+			:content="' '"
+			@cancel="onCancel"
+			:showConfirmButton="false"
+		>
 			<view class="c-info2">
 				<view class="c-info2__table">
 					<view class="th">
@@ -209,7 +364,11 @@
 					</view>
 					<view class="tr">
 						<view class="td" style="width: 30%">区块</view>
-						<view class="td value" style="width: 70%" @click="showBlock = true">
+						<view
+							class="td value"
+							style="width: 70%"
+							@click="showBlock = true"
+						>
 							{{ selectBlock.name }}
 							<u-icon name="arrow-down"></u-icon>
 						</view>
@@ -217,12 +376,27 @@
 				</view>
 				<view class="c-info2__footer" slot="confirmButton">
 					<view class="btn" @click="show = false">取消</view>
-					<view class="btn btn2" @click="onSubmitProjectEnd">确定</view>
+					<view class="btn btn2" @click="onSubmitProjectEnd">
+						确定
+					</view>
 				</view>
 			</view>
-			<u-picker v-if="show" :show="showBlock" :columns="[archive.block]" keyName="name" @confirm="onSelectConfirm" @cancel="onSelectCancel"></u-picker>
+			<u-picker
+				v-if="show"
+				:show="showBlock"
+				:columns="[archive.block]"
+				keyName="name"
+				@confirm="onSelectConfirm"
+				@cancel="onSelectCancel"
+			></u-picker>
 		</u-modal>
-		<u-modal :show="showStartProject" :title="' '" :content="' '" @cancel="onCancel" :showConfirmButton="false">
+		<u-modal
+			:show="showStartProject"
+			:title="' '"
+			:content="' '"
+			@cancel="onCancel"
+			:showConfirmButton="false"
+		>
 			<view class="c-info2">
 				<view class="c-info2__table">
 					<view class="th">
@@ -231,13 +405,26 @@
 					<view class="tr">
 						<view class="td" style="width: 30%">备注</view>
 						<view class="td value" style="width: 70%">
-							<textarea type="text" style="text-align: left; width: 100%; height: 120rpx" v-model="startProject.node" placeholder="请输入"></textarea>
+							<textarea
+								type="text"
+								style="
+									text-align: left;
+									width: 100%;
+									height: 120rpx;
+								"
+								v-model="startProject.node"
+								placeholder="请输入"
+							></textarea>
 						</view>
 					</view>
 				</view>
 				<view class="c-info2__footer" slot="confirmButton">
-					<view class="btn" @click="showStartProject = false">取消</view>
-					<view class="btn btn2" @click="onSubmitProjectStart">确定</view>
+					<view class="btn" @click="showStartProject = false">
+						取消
+					</view>
+					<view class="btn btn2" @click="onSubmitProjectStart">
+						确定
+					</view>
 				</view>
 			</view>
 		</u-modal>
@@ -263,10 +450,10 @@ export default {
 		improveDetail,
 		info,
 		inspectionsDetail,
-		projectStop
+		projectStop,
 	},
 	computed: {
-		...mapState('common', ['archiveId', 'archive', 'users', 'me'])
+		...mapState('common', ['archiveId', 'archive', 'users', 'me']),
 		// ...mapState(['isScan'])
 	},
 	watch: {
@@ -283,7 +470,7 @@ export default {
 
 				this.getData()
 			}
-		}
+		},
 	},
 	data() {
 		return {
@@ -307,41 +494,41 @@ export default {
 			showProject_stop: false,
 			showStartProject: false,
 			startProject: {
-				node: ''
+				node: '',
 			},
 			info: {
 				category: '场所',
 				场所: [
 					{
 						name: '场所名称',
-						value: 'name'
+						value: 'name',
 					},
 					{
 						name: '主要负责人',
 						value: 'project_charge',
 						name2: '检查频次要求',
 						value2: 'project_charge_rate',
-						value3: 'chargeIsCheck'
+						value3: 'chargeIsCheck',
 					},
 					{
 						name: '责任人',
 						value: 'project_manager',
 						name2: '检查频次要求',
 						value2: 'project_manager_rate',
-						value3: 'managerIsCheck'
+						value3: 'managerIsCheck',
 					},
 					{
 						name: '运维人员',
 						value: 'supervisor',
 						name2: '检查频次要求',
 						value2: 'supervisor_rate',
-						value3: 'supervisorIsCheck'
-					}
+						value3: 'supervisorIsCheck',
+					},
 				],
 				工程: [
 					{
 						name: '项目名称',
-						value: 'name'
+						value: 'name',
 					},
 					{
 						// 	name: "项目标段",
@@ -351,67 +538,67 @@ export default {
 						value: 'project_charge',
 						name2: '检查频次要求',
 						value2: 'project_charge_rate',
-						value3: 'chargeIsCheck'
+						value3: 'chargeIsCheck',
 					},
 					{
 						name: '项目经理',
 						value: 'project_manager',
 						name2: '检查频次要求',
 						value2: 'project_manager_rate',
-						value3: 'managerIsCheck'
+						value3: 'managerIsCheck',
 					},
 					{
 						name: '监理',
 						value: 'supervisor',
 						name2: '检查频次要求',
 						value2: 'supervisor_rate',
-						value3: 'supervisorIsCheck'
-					}
+						value3: 'supervisorIsCheck',
+					},
 				],
 				特种作业: [
 					{
 						name: '作业名称',
-						value: 'name'
+						value: 'name',
 					},
 					{
 						name: '作业地点',
-						value: 'address'
+						value: 'address',
 					},
 					{
 						name: '计划开始时间',
 						value: 'plan_stime',
 						name2: '计划结束时间',
-						value2: 'plan_etime'
+						value2: 'plan_etime',
 					},
 					{
 						name: '安全员',
 						value: 'safety',
 						name2: '现场负责人',
-						value2: 'site_charge'
+						value2: 'site_charge',
 					},
 					{
 						name: '施工监护人',
 						value: 'caretaker',
 						name2: '施工负责人',
-						value2: 'worker_charge'
-					}
-				]
+						value2: 'worker_charge',
+					},
+				],
 			},
 			list: {
 				type: '0',
 				types: [
 					{
 						name: '未整改隐患',
-						value: '0'
+						value: '0',
 					},
 					{
 						name: '已整改隐患',
-						value: '1'
+						value: '1',
 					},
 					{
 						name: '检查记录',
-						value: '2'
-					}
+						value: '2',
+					},
 				],
 				inspections: [
 					{
@@ -419,24 +606,24 @@ export default {
 						company: 'sssss',
 						user: '汪汪汪',
 						improve_situation: '无',
-						improve_state: '无'
-					}
+						improve_state: '无',
+					},
 				],
-				improves: []
+				improves: [],
 			},
 			stopList: {
-				data: []
+				data: [],
 			},
 			charts: {
 				types: [
 					{
 						name: '月',
-						value: 'month'
+						value: 'month',
 					},
 					{
 						name: '年',
-						value: 'year'
-					}
+						value: 'year',
+					},
 				],
 				loading: false,
 				loading2: false,
@@ -446,65 +633,65 @@ export default {
 					color: '#0db0f4',
 					month: 11,
 					year: 21,
-					name: '主要负责人'
+					name: '主要负责人',
 				},
 				2: {
 					color: '#f59a23',
 					month: 11,
 					year: 21,
-					name: '责任人'
+					name: '责任人',
 				},
 				3: {
 					color: '#8cc63f',
 					month: 11,
 					year: 21,
-					name: '运维人员'
+					name: '运维人员',
 				},
 				4: {
 					color: '#a30014',
-					value: 11
-				}
+					value: 11,
+				},
 			},
 			projects: [
 				{
 					name: '当日签到',
 					icon: require('@/static/img/qiandao.png'),
 					path: '../safe/safe',
-					id: 'project_start'
+					id: 'project_start',
 				},
 				{
 					name: '工程停工',
 					icon: require('@/static/img/stop.png'),
 					path: '../safe/safe',
-					id: 'project_stop'
+					id: 'project_stop',
 				},
 				{
 					name: '工程完工',
 					icon: require('@/static/img/end.png'),
 					path: '../improve/improve',
-					id: 'project_end'
-				}
+					id: 'project_end',
+				},
 			],
 			actions: [
 				{
 					name: '作业签到',
 					icon: require('@/static/img/qiandao.png'),
 					// path: '../safe/safe',
-					id: 'worker_start'
+					id: 'worker_start',
 				},
 				{
 					name: '作业审批',
 					icon: require('@/static/img/shenpi.png'),
 					// path: '../improve/improve',
-					id: 'worker'
+					id: 'worker',
 				},
 				{
 					name: '作业签退',
 					icon: require('@/static/img/qiantui.png'),
 					// path: '../improve/improve',
-					id: 'worker_end'
-				}
-			]
+					id: 'worker_end',
+				},
+			],
 		}
 	},
 	methods: {
@@ -516,7 +703,10 @@ export default {
 			this.showDetail = true
 		},
 		onSelectInspection(item) {
-			if (item.improve_situation == '有' && ((item || {}).improvesDto || []).length) {
+			if (
+				item.improve_situation == '有' &&
+				((item || {}).improvesDto || []).length
+			) {
 				this.improvesDto = item.improvesDto
 				this.selectImprove = item.improvesDto[0]
 				this.showDetail = true
@@ -544,11 +734,21 @@ export default {
 			} else {
 				if (this.positions && this.selectBlock.position) {
 					let hasInBlock = false
-					;((JSON.parse(this.selectBlock.position) || {}).features || []).forEach((i) => {
+					;(
+						(JSON.parse(this.selectBlock.position) || {})
+							.features || []
+					).forEach((i) => {
 						hasInBlock =
 							hasInBlock ||
 							turf(this.positions, i.geometry) ||
-							parseInt(pointToLineDistance(this.positions, i.geometry.coordinates[0], { units: 'meters' })) < this.positionAccuracy * 2 + 100
+							parseInt(
+								pointToLineDistance(
+									this.positions,
+									i.geometry.coordinates[0],
+									{ units: 'meters' },
+								),
+							) <
+								this.positionAccuracy * 2 + 100
 					})
 					this.hasInBlock = hasInBlock
 				} else {
@@ -600,10 +800,19 @@ export default {
 					let lengthIndex = 0
 					;(this.archive || {}).block.map((i, index) => {
 						if (i.position) {
-							;((JSON.parse(i.position) || {}).features || []).forEach((p) => {
+							;(
+								(JSON.parse(i.position) || {}).features || []
+							).forEach((p) => {
 								lengthIndex =
 									turf(this.positions, p.geometry) ||
-									parseInt(pointToLineDistance(this.positions, p.geometry.coordinates[0], { units: 'meters' })) < this.positionAccuracy * 2 + 100
+									parseInt(
+										pointToLineDistance(
+											this.positions,
+											p.geometry.coordinates[0],
+											{ units: 'meters' },
+										),
+									) <
+										this.positionAccuracy * 2 + 100
 										? index
 										: lengthIndex
 							})
@@ -624,13 +833,16 @@ export default {
 			} else if (item.id == 'worker') {
 				this.showWorder = true
 			} else if (item.id == 'project_stop') {
-				if (this.users.find((i) => i == this.me.id) || this.archive.project_charge_id.indexOf(this.me.id) > -1) {
+				if (
+					this.users.find((i) => i == this.me.id) ||
+					this.archive.project_charge_id.indexOf(this.me.id) > -1
+				) {
 					this.showProject_stop = true
 				} else {
 					uni.showModal({
 						title: '您不是该工程监理/负责人员！',
 						showCancel: false,
-						success: () => {}
+						success: () => {},
 					})
 				}
 			} else if (item.id == 'project_end') {
@@ -640,7 +852,7 @@ export default {
 					uni.showModal({
 						title: '您不是该工程监理人员！',
 						showCancel: false,
-						success: () => {}
+						success: () => {},
 					})
 				}
 			} else if (item.id == 'project_start') {
@@ -650,7 +862,7 @@ export default {
 					uni.showModal({
 						title: '请前往该工程区域！',
 						showCancel: false,
-						success: () => {}
+						success: () => {},
 					})
 				}
 			}
@@ -679,14 +891,14 @@ export default {
 				success: (e) => {
 					if (e.confirm) {
 						uni.showLoading({
-							title: '提交中...'
+							title: '提交中...',
 						})
 						this.$request
 							.post(`signin`, {
 								code: this.archive.code,
 								lbs_longitude: this.positions[0],
 								lbs_latitude: this.positions[1],
-								note: this.startProject.node
+								note: this.startProject.node,
 							})
 							.then((res) => {
 								uni.hideLoading()
@@ -694,7 +906,7 @@ export default {
 								uni.showModal({
 									title: '操作成功！',
 									showCancel: false,
-									success: () => {}
+									success: () => {},
 								})
 							})
 							.catch((err) => {
@@ -702,11 +914,11 @@ export default {
 								uni.showModal({
 									title: '提示',
 									content: ((err || {}).data || {}).error,
-									showCancel: false
+									showCancel: false,
 								})
 							})
 					}
-				}
+				},
 			})
 		},
 		// onSubmitProjectStop() {
@@ -756,19 +968,19 @@ export default {
 					success: (e) => {
 						if (e.confirm) {
 							uni.showLoading({
-								title: '提交中...'
+								title: '提交中...',
 							})
 							this.$request
 								.post(`project/end`, {
 									code: this.archive.code,
-									blockCode: this.selectBlock.code
+									blockCode: this.selectBlock.code,
 								})
 								.then((res) => {
 									uni.hideLoading()
 									uni.showModal({
 										title: '操作成功！',
 										showCancel: false,
-										success: () => {}
+										success: () => {},
 									})
 								})
 								.catch((err) => {
@@ -776,17 +988,17 @@ export default {
 									uni.showModal({
 										title: '提示',
 										content: ((err || {}).data || {}).error,
-										showCancel: false
+										showCancel: false,
 									})
 								})
 						}
-					}
+					},
 				})
 			} else {
 				uni.showModal({
 					title: '您不是该工程监理人员！',
 					showCancel: false,
-					success: () => {}
+					success: () => {},
 				})
 			}
 		},
@@ -797,7 +1009,7 @@ export default {
 				success: (e) => {
 					if (e.confirm) {
 						uni.showLoading({
-							title: '提交中...'
+							title: '提交中...',
 						})
 						this.$request
 							.get(`worker/signOut/${this.archive.code}`)
@@ -808,13 +1020,15 @@ export default {
 									uni.showModal({
 										title: '签退成功！',
 										showCancel: false,
-										success: () => {}
+										success: () => {},
 									})
 								} else {
 									uni.showModal({
-										title: res.data.message || '未进行作业签到！',
+										title:
+											res.data.message ||
+											'未进行作业签到！',
 										showCancel: false,
-										success: () => {}
+										success: () => {},
 									})
 								}
 							})
@@ -823,11 +1037,11 @@ export default {
 								uni.showModal({
 									title: '提示',
 									content: ((err || {}).data || {}).error,
-									showCancel: false
+									showCancel: false,
 								})
 							})
 					}
-				}
+				},
 			})
 		},
 		onSubmitWorkStart() {
@@ -837,7 +1051,7 @@ export default {
 				success: (e) => {
 					if (e.confirm) {
 						uni.showLoading({
-							title: '提交中...'
+							title: '提交中...',
 						})
 						this.$request
 							.get(`worker/signIn/${this.archive.code}`)
@@ -846,7 +1060,7 @@ export default {
 								uni.showModal({
 									title: '签到成功！',
 									showCancel: false,
-									success: () => {}
+									success: () => {},
 								})
 							})
 							.catch((err) => {
@@ -854,11 +1068,11 @@ export default {
 								uni.showModal({
 									title: '提示',
 									content: ((err || {}).data || {}).error,
-									showCancel: false
+									showCancel: false,
 								})
 							})
 					}
-				}
+				},
 			})
 		},
 		getLocation() {
@@ -870,13 +1084,16 @@ export default {
 						if (e.errMsg == 'getLocation:ok') {
 							console.log(e)
 
-							this.positions = transformCoordinate.gcj02towgs84(e.longitude, e.latitude)
+							this.positions = transformCoordinate.gcj02towgs84(
+								e.longitude,
+								e.latitude,
+							)
 							// this.positions = [e.longitude,e.latitude]
 							this.positionAccuracy = e.accuracy || 0
 							this.init2()
 						}
 					},
-					fail: (e) => {}
+					fail: (e) => {},
 				})
 			}
 		},
@@ -884,44 +1101,61 @@ export default {
 		getData() {
 			this.charts.loading = true
 			if ((this.archive || {}).code) {
-				this.$request.get(`${(this.archive || {}).code}/inspections`).then((res) => {
-					this.list.inspections = res.data.data || []
-				})
-				this.$request.get(`new/improves?code=${(this.archive || {}).code}`).then((res) => {
-					this.list.improves = res.data.data || []
-				})
-				this.$request.get(`/stop/records?code=${(this.archive || {}).code}`).then((res) => {
-					this.stopList.data = res.data.data || []
-				})
-				this.$request.get(`stat/${(this.archive || {}).code}`).then((res) => {
-					let data = res.data.data || {}
-					this.charts = {
-						...this.charts,
-						1: {
-							color: '#0db0f4',
-							month: data.charge_month || '0',
-							year: data.charge_year || '0',
-							name: this.archive.category1 == '场所' ? '主要负责人' : '项目负责人'
-						},
-						2: {
-							color: '#f59a23',
-							month: data.manager_month || '0',
-							year: data.manager_year || '0',
-							name: this.archive.category1 == '场所' ? '责任人' : '项目经理'
-						},
-						3: {
-							color: '#8cc63f',
-							month: data.supervisor_month || 0,
-							year: data.supervisor_year || '0',
-							name: this.archive.category1 == '场所' ? '运维人员' : '监理'
-						},
-						4: {
-							color: '#a30014',
-							value: data.improves || '0'
+				this.$request
+					.get(`${(this.archive || {}).code}/inspections`)
+					.then((res) => {
+						this.list.inspections = res.data.data || []
+					})
+				this.$request
+					.get(`new/improves?code=${(this.archive || {}).code}`)
+					.then((res) => {
+						this.list.improves = res.data.data || []
+					})
+				this.$request
+					.get(`/stop/records?code=${(this.archive || {}).code}`)
+					.then((res) => {
+						this.stopList.data = res.data.data || []
+					})
+				this.$request
+					.get(`stat/${(this.archive || {}).code}`)
+					.then((res) => {
+						let data = res.data.data || {}
+						this.charts = {
+							...this.charts,
+							1: {
+								color: '#0db0f4',
+								month: data.charge_month || '0',
+								year: data.charge_year || '0',
+								name:
+									this.archive.category1 == '场所'
+										? '主要负责人'
+										: '项目负责人',
+							},
+							2: {
+								color: '#f59a23',
+								month: data.manager_month || '0',
+								year: data.manager_year || '0',
+								name:
+									this.archive.category1 == '场所'
+										? '责任人'
+										: '项目经理',
+							},
+							3: {
+								color: '#8cc63f',
+								month: data.supervisor_month || 0,
+								year: data.supervisor_year || '0',
+								name:
+									this.archive.category1 == '场所'
+										? '运维人员'
+										: '监理',
+							},
+							4: {
+								color: '#a30014',
+								value: data.improves || '0',
+							},
 						}
-					}
-					this.charts.loading = false
-				})
+						this.charts.loading = false
+					})
 			}
 		},
 		getUrlParam(url) {
@@ -943,9 +1177,9 @@ export default {
 					} else {
 						this.searchCode()
 					}
-				}
+				},
 			})
-		}
+		},
 	},
 
 	onReady() {
@@ -991,7 +1225,7 @@ export default {
 						this.isScan = false
 
 						this.searchCode()
-					}
+					},
 				})
 			}
 		} else if (p.scene == '1065') {
@@ -1002,7 +1236,7 @@ export default {
 				showCancel: false,
 				success: () => {
 					this.searchCode()
-				}
+				},
 			})
 		}
 	},
@@ -1011,11 +1245,11 @@ export default {
 		const token = uni.getStorageSync('token')
 		if (!token) {
 			uni.reLaunch({
-				url: 'pages/login/login'
+				url: 'pages/login/login',
 			})
 		} else {
 		}
-	}
+	},
 }
 </script>
 <style lang="scss">
@@ -1064,7 +1298,10 @@ export default {
 	}
 
 	&__header {
-		background: linear-gradient(rgba(178, 224, 245, 1), rgba(2, 165, 238, 1));
+		background: linear-gradient(
+			rgba(178, 224, 245, 1),
+			rgba(2, 165, 238, 1)
+		);
 		text-align: center;
 		padding: 80rpx 0 70rpx;
 

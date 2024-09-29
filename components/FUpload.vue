@@ -22,32 +22,32 @@ export default {
 	props: {
 		value: {
 			type: String,
-			default: null
+			default: null,
 		},
 		showAlbum: {
 			type: Boolean,
-			default: true
+			default: true,
 		},
 		upload: {
 			type: Boolean,
-			default: true
-		}
+			default: true,
+		},
 	},
 	watch: {
 		value() {
 			if (!this.value) {
 				this.pics = []
 			}
-		}
+		},
 	},
 	data() {
 		return {
 			picsList: {},
-			pics: this.value ? this.value.split(',') : []
+			pics: this.value ? this.value.split(',') : [],
 		}
 	},
 	computed: {
-		...mapState(['token'])
+		...mapState(['token']),
 	},
 	methods: {
 		addImg() {
@@ -59,7 +59,7 @@ export default {
 					console.log(res)
 					const tempFilePaths = res.tempFilePaths
 					uni.showLoading({
-						title: '上传中...'
+						title: '上传中...',
 					})
 					uni.uploadFile({
 						url: config.baseURL + '/upload',
@@ -68,20 +68,21 @@ export default {
 						// timeout:5000,
 						header: {
 							Authorization: this.token,
-							Cookie: `__auth=${this.token}`
+							Cookie: `__auth=${this.token}`,
 						},
 						success: (uploadFileRes) => {
 							const result = JSON.parse(uploadFileRes.data)
 							if ((result.data || {}).fileid) {
 								this.pics.push(result.data.fileid)
-								this.picsList['' + result.data.fileid] = tempFilePaths[0]
+								this.picsList['' + result.data.fileid] =
+									tempFilePaths[0]
 								uni.hideLoading()
 								this.$emit('input', this.pics.join(','))
 							} else {
 								uni.hideLoading()
 								uni.showModal({
 									title: JSON.stringify('图片上传失败'),
-									showCancel: false
+									showCancel: false,
 								})
 							}
 						},
@@ -89,11 +90,11 @@ export default {
 							uni.hideLoading()
 							uni.showModal({
 								title: JSON.stringify(e),
-								showCancel: false
+								showCancel: false,
 							})
-						}
+						},
 					})
-				}
+				},
 			})
 		},
 		showImgs(index) {
@@ -102,14 +103,14 @@ export default {
 			})
 			uni.previewImage({
 				urls: lst,
-				current: lst[index]
+				current: lst[index],
 			})
 		},
 		removeImg(index) {
 			this.pics = this.pics.filter((p, i) => i != index)
 			this.$emit('input', this.pics.join(','))
-		}
-	}
+		},
+	},
 }
 </script>
 

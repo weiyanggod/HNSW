@@ -41,7 +41,7 @@
 			</view>
 			<u-cell-group>
 				<u-cell title="隐患明细" :arrow="false">
-					<u-icon slot="right-icon" name="plus" @click="addQuestion"></u-icon>
+					<u-icon slot="right-icon" name="plus" color="#2979ff" @click="addQuestion" size="28"></u-icon>
 				</u-cell>
 			</u-cell-group>
 			<scroll-view class="scrollHeight" scroll-y="true" :scroll-top="scrollTop" scroll-with-animation>
@@ -374,7 +374,6 @@ export default {
 					})
 				}
 			}
-			return
 			uni.showModal({
 				title: '提示',
 				content: '确定提交隐患通知单吗？',
