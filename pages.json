@@ -1,0 +1,115 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationStyle": "custom"
+				// "navigationBarTitleText": "海宁市水务投资集团有限公司"
+			}
+
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				// "app-plus": {
+				// 	"bounce": "none"
+				// },
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/bind/bind",
+			"style": {
+				"navigationBarTitleText": "绑定"
+			}
+		},
+		{
+			"path": "pages/setting/my",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}
+		// {
+		// 	"path": "pages/setting/about/about",
+		// 	"style": {
+		// 		"navigationBarTitleText": "关于"
+		// 	}
+		// }, {
+		// 	"path": "pages/setting/info/info",
+		// 	"style": {
+		// 		"navigationBarTitleText": "个人信息"
+		// 	}
+		// }, {
+		// 	"path": "pages/setting/setting/setting",
+		// 	"style": {
+		// 		"navigationBarTitleText": "设置"
+		// 	}
+		// }
+	 //    ,{
+  //           "path" : "pages/improve/improve",
+  //           "style" :                                                                                    
+  //           {
+  //               "navigationBarTitleText": "隐患整改",
+  //               "enablePullDownRefresh": false
+  //           }
+            
+  //       },{
+  //           "path" : "pages/safe/safe",
+  //           "style" :                                                                                    
+  //           {
+  //               "navigationBarTitleText": "安全检查",
+  //               "enablePullDownRefresh": false
+  //           }
+            
+  //       }
+        ,{
+            "path" : "pages/position/position",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "位置",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	// "tabBar": {
+	
+	// 	"list": [{
+	// 			"text": "首页",
+	// 			"pagePath": "pages/home/home",
+	// 			"iconPath": "static/images/sm.png",
+	// 			"selectedIconPath": "static/images/sm1.png"
+	// 		},
+	// 		{
+	// 			"text": "安全检查",
+	// 			"pagePath": "pages/safe/safe",
+	// 			"iconPath": "static/images/qd.png",
+	// 			"selectedIconPath": "static/images/qd1.png"
+	// 		},
+	// 		// {
+	// 		// 	"text": "签到中心",
+	// 		// 	"pagePath": "pages/home/home",
+	// 		// 	"iconPath": "static/images/jk.png",
+	// 		// 	"selectedIconPath": "static/images/active-jk.png"
+	// 		// },
+	// 		{
+	// 			"text": "隐患整改",
+	// 			"pagePath": "pages/improve/improve",
+	// 			"iconPath": "static/images/yh.png",
+	// 			"selectedIconPath": "static/images/yhzg1.png"
+	// 		},
+	// 		{
+	// 			"text": "个人中心",
+	// 			"pagePath": "pages/setting/my",
+	// 			"iconPath": "static/images/my.png",
+	// 			"selectedIconPath": "static/images/active-my.png"
+	// 		}
+	// 	]
+	// },
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "海宁市水务投资集团有限公司",
+		"navigationBarBackgroundColor": "#5064EB",
+		"backgroundColor": "#f1f5f7"
+	}
+}
