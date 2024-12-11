@@ -1,0 +1,16 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "u-circle-progress": "/uni_modules/uview-ui/components/u-circle-progress/u-circle-progress",
+    "u-picker": "/uni_modules/uview-ui/components/u-picker/u-picker",
+    "u-modal": "/uni_modules/uview-ui/components/u-modal/u-modal",
+    "box": "/components/box",
+    "safe": "/pages/home/safe",
+    "worker": "/pages/home/work",
+    "improve-detail": "/pages/home/improve",
+    "info": "/pages/home/info",
+    "inspections-detail": "/pages/home/inspectionsDetail",
+    "project-stop": "/pages/home/projectStop"
+  }
+}

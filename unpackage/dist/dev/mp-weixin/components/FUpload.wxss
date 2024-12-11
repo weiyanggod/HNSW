@@ -1,0 +1,24 @@
+.f-upload .add-btn {
+  width: 150rpx;
+  background-color: #169bd5;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  color: #fff;
+  border: 1px border #ccc;
+  flex-direction: column;
+  border-radius: 8rpx;
+  padding: 0 8rpx;
+}
+.f-upload .add-btn .text {
+  font-size: 22rpx;
+  color: #fff;
+}
+.f-upload .pics {
+  width: 300rpx;
+  margin-right: 12rpx;
+  position: relative;
+  border-bottom: 1px solid #f2f2f2;
+  color: #666;
+}
+

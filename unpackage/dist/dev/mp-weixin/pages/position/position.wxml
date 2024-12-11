@@ -1,0 +1,1 @@
+<map style="width:750rpx;height:100vh;" longitude="{{positions[0]}}" latitude="{{positions[1]}}" polygons="{{polygons}}" markers="{{markers}}"></map>

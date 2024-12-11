@@ -1,0 +1,1 @@
+<view class="c-box"><view class="header"><image class="img" src="../static/img/title.png" mode></image><text>{{title}}</text><slot name="title2"></slot></view><slot></slot></view>

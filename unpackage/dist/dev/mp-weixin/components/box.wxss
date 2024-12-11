@@ -1,0 +1,22 @@
+.c-box {
+  margin: -40rpx 20rpx 60rpx;
+  padding: 0 0rpx 20rpx;
+  background-color: #fff;
+  border-radius: 8rpx;
+  box-shadow: 0 0 3rpx #ccc;
+}
+.c-box .header {
+  display: flex;
+  align-items: center;
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 0 20rpx;
+  font-weight: bold;
+  position: relative;
+}
+.c-box .header .img {
+  margin-right: 20rpx;
+  width: 58rpx;
+  height: 16rpx;
+}
+

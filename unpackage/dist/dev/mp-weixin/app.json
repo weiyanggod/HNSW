@@ -1,0 +1,26 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/login/login",
+    "pages/bind/bind",
+    "pages/setting/my",
+    "pages/position/position"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "海宁市水务投资集团有限公司",
+    "navigationBarBackgroundColor": "#5064EB",
+    "backgroundColor": "#f1f5f7"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "系统需要获取您的位置权限，查询设备"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseLocation"
+  ],
+  "usingComponents": {}
+}

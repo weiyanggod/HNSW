@@ -1,0 +1,40 @@
+.f-uploadShow {
+  display: flex;
+}
+.f-uploadShow .add-btn {
+  width: 100rpx;
+  height: 100rpx;
+  background-color: #fff;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  background-color: #efefef;
+  border: 1px dashed #ccc;
+  flex-direction: column;
+  border-radius: 12rpx;
+}
+.f-uploadShow .add-btn .grace-icons {
+  color: #0099cc;
+  font-size: 40rpx;
+}
+.f-uploadShow .add-btn .text {
+  font-size: 22rpx;
+  color: #666;
+}
+.f-uploadShow .items {
+  width: 100rpx;
+  height: 100rpx;
+  margin-right: 12rpx;
+  position: relative;
+}
+.f-uploadShow .items .remove {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #fff;
+  width: 32rpx;
+  height: 32rpx;
+  line-height: 36rpx;
+  text-align: center;
+}
+
