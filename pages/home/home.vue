@@ -282,7 +282,12 @@
 				</view>
 			</view>
 		</box>
-		<box title="停工记录" class="p-home__info" style="margin-top: 20rpx">
+		<box
+			title="停工记录"
+			class="p-home__info"
+			style="margin-top: 20rpx"
+			v-if="archive.category1 === '工程'"
+		>
 			<view class="table table2">
 				<view class="th">
 					<view class="td" style="width: 10%">序号</view>
