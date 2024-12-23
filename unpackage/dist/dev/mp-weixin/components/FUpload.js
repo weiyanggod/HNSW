@@ -167,6 +167,7 @@ var _default = {
   methods: {
     addImg: function addImg() {
       var _this = this;
+      console.log('上传图片');
       uni.chooseImage({
         count: 1,
         sizeType: ['compressed'],
@@ -208,6 +209,12 @@ var _default = {
                 showCancel: false
               });
             }
+          });
+        },
+        fail: function fail(error) {
+          uni.showModal({
+            title: JSON.stringify(error),
+            showCancel: false
           });
         }
       });

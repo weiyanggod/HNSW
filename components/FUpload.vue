@@ -51,6 +51,7 @@ export default {
 	},
 	methods: {
 		addImg() {
+			console.log('上传图片')
 			uni.chooseImage({
 				count: 1,
 				sizeType: ['compressed'],
@@ -93,6 +94,12 @@ export default {
 								showCancel: false,
 							})
 						},
+					})
+				},
+				fail: (error) => {
+					uni.showModal({
+						title: JSON.stringify(error),
+						showCancel: false,
 					})
 				},
 			})

@@ -993,7 +993,7 @@ var _default = {
       if (this.isScan) {
         this.isNewCode = true;
         this.isScan = false;
-        this.set_archiveId({});
+        this.set_archiveId(null);
         uni.showModal({
           title: '请扫描二维码进入！',
           showCancel: false,
@@ -1005,7 +1005,7 @@ var _default = {
       }
     } else if (p.scene == '1065') {
       this.isNewCode = true;
-      this.set_archiveId({});
+      this.set_archiveId(null);
       uni.showModal({
         title: '请扫描二维码进入！',
         showCancel: false,
